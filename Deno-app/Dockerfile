@@ -12,8 +12,4 @@ RUN deno cache server.js
 EXPOSE 3000
 
 # run app
-CMD ["run",
-     "--allow-net",
-     "--allow-env",
-     "--allow-read",
-     "server.js"]
+CMD ["deno", "run", "--allow-net", "--allow-env", "--allow-read", "server.js"]
