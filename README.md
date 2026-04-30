@@ -6,3 +6,5 @@ TODO:
 - dokumentace slouží pro:
 	testování
 	obhajobu
+
+- dodělat compute endpoint pro Bun
