@@ -7,4 +7,4 @@ TODO:
 	testování
 	obhajobu
 
-- dodělat compute endpoint pro Bun
+- dodělat compute endpoint pro Bun (včetně návratového JSON s duration.time)
