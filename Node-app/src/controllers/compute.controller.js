@@ -3,7 +3,7 @@ const crypto = require('crypto');
 exports.computeHash = (req, res) => {
   const start = Date.now();
 
-  // kolikrát hashovat (lze řídit query parametrem)
+  // kolikrát hashovat (lze řídit query parametrem) => doplnit
   const iterations = parseInt(req.query.iterations) || 100000;
 
   let hash = 'test';
