@@ -1,3 +1,4 @@
+//je voláno z kontroleru
 import pool from "../db/pool.js";
 
 export const createUser = async (name, email) => {

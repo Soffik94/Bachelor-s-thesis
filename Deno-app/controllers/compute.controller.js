@@ -1,3 +1,4 @@
+//umělá hash fce pro vytížení 
 export function computeHash(url) {
   const start = Date.now();
 

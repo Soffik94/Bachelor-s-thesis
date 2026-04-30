@@ -1,3 +1,4 @@
+//validuje data z req a volá service
 import * as usersService from "../services/users.service.js";
 
 export async function createUser(body) {
