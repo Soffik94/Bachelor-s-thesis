@@ -1,8 +1,8 @@
 //je voláno z kontroleru
-import pool from "../db/pool.js";
+import { getClient } from "../db/pool.js";
 
 export const createUser = async (name, email) => {
-  const client = await pool.connect();
+  const client = await getClient();
 
   try {
     const result = await client.queryObject(
@@ -17,7 +17,7 @@ export const createUser = async (name, email) => {
 };
 
 export const getUsers = async () => {
-  const client = await pool.connect();
+  const client = await getClient();
 
   try {
     const result = await client.queryObject(
