@@ -9,4 +9,8 @@ const pool = new Pool({
   max: 30
 });
 
+pool.on('connect', async (client) => {
+  await client.query('SET search_path TO node_schema');
+});
+
 module.exports = pool;
