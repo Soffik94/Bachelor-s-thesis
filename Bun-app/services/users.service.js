@@ -1,14 +1,16 @@
-import { sql } from "../db/db.js";
+import { getUsersTable, sql } from "../db/db.js";
 
 export const userService = {
   async getAll() {
-    const users = await sql`SELECT * FROM bun_schema.users`;
+    const usersTable = await getUsersTable();
+    const users = await sql`SELECT * FROM ${sql(usersTable)} ORDER BY id DESC`;
     return users;
   },
 
   async create({ name, email }) {
+    const usersTable = await getUsersTable();
     const result = await sql`
-      INSERT INTO bun_schema.users (name, email)
+      INSERT INTO ${sql(usersTable)} (name, email)
       VALUES (${name}, ${email})
       RETURNING *
     `;

@@ -8,7 +8,7 @@ TODO:
 	testování
 	obhajobu
 2) Endpointy
-- dodělat compute endpoint pro Bun (včetně návratového JSON s duration.time)
+- benchmark API sjednoceno: GET /ping, GET /compute, GET /items, POST /items
 - ověřit funčnost endpointů navázaných na db u všech apek
 3) Testy
 - ping test (done)

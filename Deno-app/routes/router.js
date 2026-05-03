@@ -5,22 +5,20 @@ export async function router(req) {
   const url = new URL(req.url);
 
   if (url.pathname === "/ping") {
-    return new Response(JSON.stringify({ message: "pong" }), {
-      headers: { "Content-Type": "application/json" },
-    });
+    if (req.method === "GET") {
+      return Response.json({ message: "pong" });
+    }
+
+    return Response.json({ error: "method not allowed" }, { status: 405 });
   }
 
-  if (url.pathname.startsWith("/users")) {
+  if (url.pathname === "/items") {
     return handleUsers(req);
   }
 
-  if (url.pathname.startsWith("/compute")) {
+  if (url.pathname === "/compute") {
     return handleCompute(req);
   }
 
-  if (url.pathname === "/metrics") {
-    return new Response("metrics not implemented", { status: 200 });
-  }
-
-  return new Response("Not Found", { status: 404 });
+  return Response.json({ error: "not found" }, { status: 404 });
 }

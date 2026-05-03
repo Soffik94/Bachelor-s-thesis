@@ -4,21 +4,22 @@ export async function handleUsers(req) {
   if (req.method === "GET") {
     const result = await getUsers();
 
-    return new Response(JSON.stringify(result.body), {
-      status: result.status,
-      headers: { "Content-Type": "application/json" },
-    });
+    return Response.json(result.body, { status: result.status });
   }
 
   if (req.method === "POST") {
-    const body = await req.json();
+    let body;
+
+    try {
+      body = await req.json();
+    } catch {
+      return Response.json({ error: "invalid json" }, { status: 400 });
+    }
+
     const result = await createUser(body);
 
-    return new Response(JSON.stringify(result.body), {
-      status: result.status,
-      headers: { "Content-Type": "application/json" },
-    });
+    return Response.json(result.body, { status: result.status });
   }
 
-  return new Response("Method Not Allowed", { status: 405 });
+  return Response.json({ error: "method not allowed" }, { status: 405 });
 }

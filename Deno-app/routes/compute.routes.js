@@ -11,12 +11,10 @@ export async function handleCompute(req) {
   const url = new URL(req.url);
 
   if (req.method === "GET") {
-    const result = computeHash(url);
+    const result = await computeHash(url);
 
-    return new Response(JSON.stringify(result), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return Response.json(result);
   }
 
-  return new Response("Method Not Allowed", { status: 405 });
+  return Response.json({ error: "method not allowed" }, { status: 405 });
 }

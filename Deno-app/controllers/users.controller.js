@@ -2,7 +2,7 @@
 import * as usersService from "../services/users.service.js";
 
 export async function createUser(body) {
-  const { name, email } = body;
+  const { name, email } = body ?? {};
 
   if (!name || !email) {
     return { status: 400, body: { error: "name and email required" } };
