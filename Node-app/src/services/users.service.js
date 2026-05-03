@@ -1,8 +1,8 @@
-const pool = require('../db/pool');
+const { pool, usersTable } = require('../db/pool');
 
 const createUser = async (name, email) => {
   const result = await pool.query(
-    'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
+    `INSERT INTO ${usersTable} (name, email) VALUES ($1, $2) RETURNING *`,
     [name, email]
   );
 
@@ -10,7 +10,7 @@ const createUser = async (name, email) => {
 };
 
 const getUsers = async () => {
-  const result = await pool.query('SELECT * FROM users ORDER BY id DESC');
+  const result = await pool.query(`SELECT * FROM ${usersTable} ORDER BY id DESC`);
   return result.rows;
 };
 
