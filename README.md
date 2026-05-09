@@ -12,7 +12,7 @@ are executed from a separate measurement server using Grafana k6.
 | Path | Description |
 | --- | --- |
 | `Node-app/` | Node.js + Express implementation |
-| `Deno-app/` | Deno native HTTP server with Hono routing |
+| `Deno-app/` | Deno native HTTP server with a custom lightweight route table |
 | `Bun-app/` | Bun native HTTP server with `Bun.serve` routes |
 | `db/runtime-schemas.sql` | PostgreSQL schemas and tables for benchmark isolation |
 | `DEPLOYMENT.md` | server topology, Docker deployment, smoke tests |
@@ -30,9 +30,14 @@ All three applications expose the same API surface:
 | `/items` | `POST` | PostgreSQL write workload |
 
 The routing layer is runtime-specific while keeping the endpoint behavior
-equivalent: Node.js uses Express Router, Deno uses the lightweight Hono router
-(`jsr:@hono/hono@4.12.18`) on top of `Deno.serve`, and Bun uses native
-`Bun.serve` routes.
+equivalent: Node.js uses Express Router, Deno uses `Deno.serve` with a custom
+lightweight route table, and Bun uses native `Bun.serve` routes. Deno and Bun
+therefore have an explicit routing layer without an external framework.
+
+For H3, `/ping` is the primary scenario because it isolates HTTP stack,
+routing, JSON serialization, and framework/runtime overhead. `/compute` is a
+supplementary CPU-bound H3 scenario and must be interpreted carefully because
+it measures hashing work in addition to HTTP/routing overhead.
 
 Each container listens on port `3000` internally. On the application server, the
 runtimes are exposed on separate host ports:

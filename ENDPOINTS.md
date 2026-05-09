@@ -8,8 +8,21 @@ port `3000` internally. On the application server, the current host port mapping
 - Bun: `http://<app-server>:3002`
 
 The HTTP contract is intentionally shared across runtimes. Internally, Node.js
-uses Express Router, Deno uses Hono on top of `Deno.serve`, and Bun uses native
-`Bun.serve` routes.
+uses Express Router, Deno uses `Deno.serve` with a custom lightweight route
+table, and Bun uses native `Bun.serve` routes. Deno and Bun have an explicit
+routing layer without an external framework.
+
+For H3, `/ping` is the primary scenario because it isolates HTTP stack, routing,
+JSON serialization, and framework/runtime overhead. `/compute` is a
+supplementary CPU-bound scenario and should be interpreted carefully because it
+also measures runtime hashing behavior.
+
+The `/compute` contract is shared across runtimes: the endpoint accepts
+`iterations`, starts from the seed value `test`, repeatedly computes SHA-256,
+and returns `message`, `iterations`, `duration_ms`, and `hash`. The concrete
+crypto APIs differ by runtime (`crypto.createHash`, Web Crypto
+`crypto.subtle`, and `Bun.CryptoHasher`), but the intended workload is the same
+hash chain.
 
 ## Node App
 

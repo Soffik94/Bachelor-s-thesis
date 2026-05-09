@@ -6,8 +6,9 @@ PostgreSQL on a separate database server. Performance tests are started from the
 measurement server.
 
 The applications use comparable routing layers for the shared API surface:
-Node.js uses Express Router, Deno uses Hono on top of `Deno.serve`, and Bun uses
-native `Bun.serve` routes.
+Node.js uses Express Router, Deno uses `Deno.serve` with a custom lightweight
+route table, and Bun uses native `Bun.serve` routes. Deno and Bun do not use an
+external HTTP framework for benchmarked endpoints.
 
 ## Server Topology
 
@@ -122,8 +123,8 @@ docker rm -f bun-app-container || true
 docker run -d --name bun-app-container --env-file .env -p 3002:3000 bun-app-image
 ```
 
-The Deno image caches remote dependencies during `docker build` with
-`deno cache server.js`; this includes the Hono router imported from JSR.
+The Deno image caches modules during `docker build` with `deno cache server.js`.
+The HTTP routing layer is local project code, not an external framework.
 
 ## Smoke Tests
 
