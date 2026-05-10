@@ -15,14 +15,13 @@ routing layer without an external framework.
 For H3, `/ping` is the primary scenario because it isolates HTTP stack, routing,
 JSON serialization, and framework/runtime overhead. `/compute` is a
 supplementary CPU-bound scenario and should be interpreted carefully because it
-also measures runtime hashing behavior.
+also measures deterministic JavaScript CPU work.
 
 The `/compute` contract is shared across runtimes: the endpoint accepts
-`iterations`, starts from the seed value `test`, repeatedly computes SHA-256,
-and returns `message`, `iterations`, `duration_ms`, and `hash`. The concrete
-crypto APIs differ by runtime (`crypto.createHash`, Web Crypto
-`crypto.subtle`, and `Bun.CryptoHasher`), but the intended workload is the same
-hash chain.
+`iterations`, runs the same pure ECMAScript 32-bit integer mixing loop in each
+runtime, and returns `message`, `iterations`, `duration_ms`, and `hash`. No
+runtime crypto API is used. The `hash` field contains the deterministic
+8-character hexadecimal result of the CPU loop.
 
 ## Node App
 
@@ -42,11 +41,12 @@ Response `200`:
 
 ### GET /compute
 
-Runs repeated SHA-256 hashing. The `iterations` query parameter is optional.
+Runs deterministic pure JavaScript CPU work. The `iterations` query parameter
+is optional.
 
 Query parameters:
 
-- `iterations`: number of hash iterations, default `100000`
+- `iterations`: number of CPU loop iterations, default `100000`
 
 Example:
 
@@ -61,7 +61,7 @@ Response `200`:
   "message": "compute done",
   "iterations": 100000,
   "duration_ms": 120,
-  "hash": "a1b2c3d4e5f6a7b8"
+  "hash": "32bd39d9"
 }
 ```
 
@@ -124,11 +124,12 @@ Response `200`:
 
 ### GET /compute
 
-Runs repeated SHA-256 hashing. The `iterations` query parameter is optional.
+Runs deterministic pure JavaScript CPU work. The `iterations` query parameter
+is optional.
 
 Query parameters:
 
-- `iterations`: number of hash iterations, default `100000`
+- `iterations`: number of CPU loop iterations, default `100000`
 
 Example:
 
@@ -143,7 +144,7 @@ Response `200`:
   "message": "compute done",
   "iterations": 100000,
   "duration_ms": 120,
-  "hash": "a1b2c3d4e5f6a7b8"
+  "hash": "32bd39d9"
 }
 ```
 
@@ -206,11 +207,12 @@ Response `200`:
 
 ### GET /compute
 
-Runs repeated SHA-256 hashing. The `iterations` query parameter is optional.
+Runs deterministic pure JavaScript CPU work. The `iterations` query parameter
+is optional.
 
 Query parameters:
 
-- `iterations`: number of hash iterations, default `100000`
+- `iterations`: number of CPU loop iterations, default `100000`
 
 Example:
 
@@ -225,7 +227,7 @@ Response `200`:
   "message": "compute done",
   "iterations": 100000,
   "duration_ms": 120,
-  "hash": "a1b2c3d4e5f6a7b8"
+  "hash": "32bd39d9"
 }
 ```
 

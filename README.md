@@ -25,7 +25,7 @@ All three applications expose the same API surface:
 | Endpoint | Method | Benchmark purpose |
 | --- | --- | --- |
 | `/ping` | `GET` | basic HTTP request-response latency |
-| `/compute?iterations=...` | `GET` | CPU-bound SHA-256 hashing |
+| `/compute?iterations=...` | `GET` | CPU-bound deterministic JavaScript work |
 | `/items` | `GET` | PostgreSQL read workload |
 | `/items` | `POST` | PostgreSQL write workload |
 
@@ -37,7 +37,8 @@ therefore have an explicit routing layer without an external framework.
 For H3, `/ping` is the primary scenario because it isolates HTTP stack,
 routing, JSON serialization, and framework/runtime overhead. `/compute` is a
 supplementary CPU-bound H3 scenario and must be interpreted carefully because
-it measures hashing work in addition to HTTP/routing overhead.
+it measures deterministic JavaScript CPU work in addition to HTTP/routing
+overhead.
 
 Each container listens on port `3000` internally. On the application server, the
 runtimes are exposed on separate host ports:

@@ -2,7 +2,7 @@
   "message": "compute done",
   "iterations": 100000,
   "duration_ms": 120,
-  "hash": "a1b2c3d4e5f6..."
+  "hash": "32bd39d9"
 } -> údaje o jednom proběhnutí compute*/
 
 import { computeHash } from "../controllers/compute.controller.js";
