@@ -1,8 +1,13 @@
 import { userService } from "../services/users.service.js";
 
 export async function getUsers() {
-  const users = await userService.getAll();
-  return Response.json(users);
+  try {
+    const users = await userService.getAll();
+    return Response.json(users);
+  } catch (err) {
+    console.error(err);
+    return Response.json({ error: "internal error" }, { status: 500 });
+  }
 }
 
 export async function createUser(req) {
@@ -20,6 +25,11 @@ export async function createUser(req) {
     return Response.json({ error: "name and email required" }, { status: 400 });
   }
 
-  const user = await userService.create(body);
-  return Response.json(user, { status: 201 });
+  try {
+    const user = await userService.create(body);
+    return Response.json(user, { status: 201 });
+  } catch (err) {
+    console.error(err);
+    return Response.json({ error: "internal error" }, { status: 500 });
+  }
 }

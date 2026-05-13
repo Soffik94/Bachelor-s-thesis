@@ -38,6 +38,15 @@ CREATE TABLE IF NOT EXISTS deno_schema.users (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+ALTER TABLE node_schema.users
+  ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+
+ALTER TABLE bun_schema.users
+  ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+
+ALTER TABLE deno_schema.users
+  ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+
 GRANT USAGE ON SCHEMA node_schema, bun_schema, deno_schema TO benchmark;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA node_schema, bun_schema, deno_schema TO benchmark;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA node_schema, bun_schema, deno_schema TO benchmark;
