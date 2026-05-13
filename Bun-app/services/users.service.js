@@ -17,7 +17,7 @@ export const userService = {
     const result = await sql`
       INSERT INTO ${sql(usersTable)} (name, email)
       VALUES (${name}, ${email})
-      RETURNING *
+      RETURNING id, name, email, created_at
     `;
     return result[0];
   },
